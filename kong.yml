@@ -1,0 +1,26 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+- name: my-service
+  url: http://172.17.0.1:8090/headers
+  plugins:
+  - name: jwtrefresh
+    config:
+      cookie_names: [token]
+      claims_to_verify: [exp]
+      refreshurl: http://172.17.0.1:8090/refresh
+      refresh_timeremaining_second: 120
+  routes:
+  - name: my-route
+    paths:
+    - /headers
+
+consumers:
+- username: 1portal-auth
+
+jwt_secrets:
+- consumer: 1portal-auth
+  key: localhost
+  algorithm: RS256
+  rsa_public_key: "-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHJ5+ErtHhqnqmNQ2YuRPupGQJaW\n0QdXd66BAtIwH/RmiPzOnNFGGAla6bJD5vtrdJwmqTw1s1FNIiE/vLiR+EU9lFRG\n8pK+5cSdJryeHEXGJ8+2GpSYt7Kz3RDyv/gkuiZim8vGIrwoM43OaBOSqRLv6GzE\nQRXr2mwKSO13r7cZAgMBAAE=\n-----END PUBLIC KEY-----"
